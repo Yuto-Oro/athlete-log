@@ -1,0 +1,21 @@
+name: Node.js CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x] # Specify the Node.js version(s) you want to test against
+
+    steps:
+    - uses: actions/checkout@v2 # This step checks out a copy of your repository
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install # Install dependencies
+    - run: npm test    # Run tests
