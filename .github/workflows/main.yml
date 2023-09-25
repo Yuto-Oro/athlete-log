@@ -1,21 +1,34 @@
-name: Node.js CI
+name: CI
 
 on: [push]
 
 jobs:
-  build:
-
+  frontend-tests:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x] # Specify the Node.js version(s) you want to test against
-
     steps:
-    - uses: actions/checkout@v2 # This step checks out a copy of your repository
-    - name: Use Node.js ${{ matrix.node-version }}
+    - uses: actions/checkout@v2
+    - name: Use Node.js 16.x
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm install # Install dependencies
-    - run: npm test    # Run tests
+        node-version: '16.x'
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./athlete-log-frontend
+    - name: Run tests
+      run: npm test
+      working-directory: ./athlete-log-frontend
+
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./athlete-log-backend
+    - name: Run tests
+      run: npm test
+      working-directory: ./athlete-log-backend
